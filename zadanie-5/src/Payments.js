@@ -5,8 +5,7 @@ const Payments = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
-		// Wyślij dane płatności do aplikacji serwerowej
+		
 		fetch('http://localhost:1323/products', {
 			method: 'POST',
 			body: JSON.stringify(dataPayments),

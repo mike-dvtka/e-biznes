@@ -15,10 +15,16 @@ type (
 		Name string `json:"name"`
 		Price float32 `json:"price"`
 	}
+
+	payment struct {
+		ID int `json:"id"`
+		Amount string `json:"amount"`
+	}
 )
 
 var (
 	products = map[int]*product{}
+	payments = map[int]*payment{}
 	seq   = 1
 	lock  = sync.Mutex{}
 )
@@ -33,6 +39,20 @@ func createProduct(c echo.Context) error {
 		return err
 	}
 	products[u.ID] = u
+	seq++
+	return c.JSON(http.StatusCreated, u)
+}
+
+func createPayment(c echo.Context) error {
+	lock.Lock()
+	defer lock.Unlock()
+	u := &payment{
+		ID: seq,
+	}
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	payments[u.ID] = u
 	seq++
 	return c.JSON(http.StatusCreated, u)
 }
@@ -82,6 +102,7 @@ func main() {
 	e.GET("/products/:id", getProduct)
 	e.PUT("/products/:id", updateProduct)
 	e.DELETE("/products/:id", deleteProduct)
+	e.POST("/payments", createPayment)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

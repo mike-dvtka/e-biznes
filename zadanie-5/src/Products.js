@@ -14,8 +14,10 @@ const Products = () => {
 		<div>
 			<h2>Products</h2>
 			<ul>
-				{products.map((product) => (
-					<li key={product.id}>{product.title}</li>
+				{Object.values(products).map((product) => (
+					<li key={product.id}>
+						{product.name} - {product.price} zł
+					</li>
 				))}
 			</ul>
 		</div>

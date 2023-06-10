@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 
 const Payments = () => {
 	const [dataPayments, setDataPayments] = useState('');
-
+	const [loaded, setLoaded] = useState(false);
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		
-		fetch('http://localhost:1323/products', {
+		const data = { amount: dataPayments };
+		fetch('http://localhost:1323/payments', {
 			method: 'POST',
-			body: JSON.stringify(dataPayments),
+			body: JSON.stringify(data),
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
 			.then((response) => response.json())
-			.then((data) => console.log(data))
+			.then((data) => setLoaded(true))
 			.catch((error) => console.log(error));
 	};
 
@@ -36,6 +36,7 @@ const Payments = () => {
 				</label>
 				<button type='submit'>Wyślij</button>
 			</form>
+			{loaded && <p>Wysłano płatność</p>}
 		</div>
 	);
 };

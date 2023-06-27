@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zadanie 9</title>
+</head>
+<body>
+    <h1>Aplikacja do rozmowy z chatGPT</h1>
+
+    <h2>Wyślij wiadomość</h2>
+    <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Wpisz wiadomość">
+        <button type="submit">Wyślij</button>
+    </form>
+
+    <h2>Otrzymane wiadomości</h2>
+    <ul id="messageList"></ul>
+
+    <script>
+        // Funkcja obsługująca wysyłanie wiadomości
+        function sendMessage(event) {
+            event.preventDefault();
+            var messageInput = document.getElementById('messageInput');
+            var message = messageInput.value;
+
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    messageInput.value = '';
+                    getMessages();
+                } else {
+                    alert('Wystąpił błąd podczas wysyłania wiadomości.');
+                }
+            });
+        }
+
+        // Funkcja pobierająca otrzymane wiadomości
+        function getMessages() {
+            fetch('/get_messages')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var messageList = document.getElementById('messageList');
+                messageList.innerHTML = '';
+
+                data.forEach(function(message) {
+                    var li = document.createElement('li');
+                    li.textContent = message;
+                    messageList.appendChild(li);
+                });
+            });
+        }
+
+        // Obsługa zdarzenia wysłania formularza
+        var messageForm = document.getElementById('messageForm');
+        messageForm.addEventListener('submit', sendMessage);
+
+        // Pobranie otrzymanych wiadomości po załadowaniu strony
+        getMessages();
+    </script>
+</body>
+</html>

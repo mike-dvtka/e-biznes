@@ -10,4 +10,4 @@ Oceny:
  - zadanie 7 -> 4.5
  - zadanie 8 -> 3.5
  - zadanie 9 -> 3.5
- - zadanie 10 -> X
+ - zadanie 10 -> 3.0

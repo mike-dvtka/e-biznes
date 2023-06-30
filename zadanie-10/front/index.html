@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadanie 10 - Front</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <strong>Zadanie 10 - Front</strong>
+
+    <ol class="alternating-colors" id="data-list">
+    </ol>
+
+    <script>
+        fetch('https://16.16.218.147:1000/products')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const dataList = document.getElementById('data-list');
+
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    const strong = document.createElement('strong');
+                    const p = document.createElement('p');
+                    strong.textContent = item.name;
+                    p.textContent = item.price + ' zł';
+                    li.appendChild(strong);
+                    li.appendChild(p);
+                    dataList.appendChild(li);
+                });
+            })
+            .catch(error => console.log('Wystąpił błąd:', error));
+    </script>
+</body>
+
+</html>

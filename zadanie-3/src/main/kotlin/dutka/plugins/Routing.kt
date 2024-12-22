@@ -22,7 +22,7 @@ fun Application.configureRouting() {
 
         }
         get("/send") {
-            val kord = Kord("MTA5Nzk1MDYwMzY5NjY4OTE4Mg.Gy17MG.evsTI4EavreYze7ZOb_lticUO7f9vwYPuNcLRg")
+            val kord = Kord("Enter your Discord token here")
 
             kord.on<MessageCreateEvent> {
                 if (message.content != "!bot") return@on
